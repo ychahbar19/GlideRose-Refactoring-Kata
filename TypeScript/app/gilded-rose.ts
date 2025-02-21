@@ -24,6 +24,7 @@ export abstract class BaseItemStrategy implements ItemUpdateStrategy {
 }
 
 export class StandardItemStrategy extends BaseItemStrategy {
+  private static readonly DEGRADE_AMOUNT = 1
   private static readonly instance = new StandardItemStrategy();
 
   private constructor() {
@@ -35,7 +36,7 @@ export class StandardItemStrategy extends BaseItemStrategy {
   }
 
   updateQuality(item: Item): void {
-    const degradeAmount = item.sellIn <= 0 ? 2 : 1;
+    const degradeAmount = item.sellIn <= 0 ? (StandardItemStrategy.DEGRADE_AMOUNT * 2) : StandardItemStrategy.DEGRADE_AMOUNT;
     this.decreaseQuality(item, degradeAmount);
     this.updateSellIn(item);
   }
@@ -98,6 +99,24 @@ class SulfurasStrategy implements ItemUpdateStrategy {
 
   updateQuality(item: Item): void {
     item.quality = SulfurasStrategy.SULFURAS_QUALITY;
+  }
+}
+
+export class ConjuredItemStrategy extends BaseItemStrategy {
+  private static readonly DEGRADE_AMOUNT = 2
+  private static readonly instance = new ConjuredItemStrategy();
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): ConjuredItemStrategy {
+    return ConjuredItemStrategy.instance;
+  }
+
+  updateQuality(item: Item): void {
+    const degradeAmount = item.sellIn <= 0 ? (ConjuredItemStrategy.DEGRADE_AMOUNT * 2) : ConjuredItemStrategy.DEGRADE_AMOUNT;
+    this.decreaseQuality(item, degradeAmount);
+    this.updateSellIn(item);
   }
 }
 
