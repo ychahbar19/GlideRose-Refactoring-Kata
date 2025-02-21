@@ -62,6 +62,19 @@ export class SulfurasStrategy implements ItemUpdateStrategy {
   }
 }
 
+export class ItemUpdateStrategyFactory {
+  private static readonly AGED_BRIE = 'Aged Brie';
+  private static readonly BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
+  private static readonly SULFURAS = 'Sulfuras, Hand of Ragnaros';
+
+  static createStrategy(item: Item): ItemUpdateStrategy {
+    if (item.name === this.AGED_BRIE) return new AgedBrieStrategy();
+    if (item.name === this.BACKSTAGE_PASSES) return new BackstagePassStrategy();
+    if (item.name === this.SULFURAS) return new SulfurasStrategy();
+    return new StandardItemStrategy();
+  }
+}
+
 export class Item {
   name: string;
   sellIn: number;
