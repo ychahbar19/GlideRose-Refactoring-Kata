@@ -23,6 +23,45 @@ export abstract class BaseItemStrategy implements ItemUpdateStrategy {
   abstract updateQuality(item: Item): void;
 }
 
+export class StandardItemStrategy extends BaseItemStrategy {
+  updateQuality(item: Item): void {
+    const degradeAmount = item.sellIn <= 0 ? 2 : 1;
+    this.decreaseQuality(item, degradeAmount);
+    this.updateSellIn(item);
+  }
+}
+
+export class AgedBrieStrategy extends BaseItemStrategy {
+  updateQuality(item: Item): void {
+    this.increaseQuality(item);
+    this.updateSellIn(item);
+    if (item.sellIn < 0) {
+      this.increaseQuality(item);
+    }
+  }
+}
+
+export class BackstagePassStrategy extends BaseItemStrategy {
+  updateQuality(item: Item): void {
+    if (item.sellIn <= 0) {
+      item.quality = 0;
+    } else {
+      this.increaseQuality(item);
+      if (item.sellIn <= 10) this.increaseQuality(item);
+      if (item.sellIn <= 5) this.increaseQuality(item);
+    }
+    this.updateSellIn(item);
+  }
+}
+
+export class SulfurasStrategy implements ItemUpdateStrategy {
+  private static readonly SULFURAS_QUALITY = 80;
+
+  updateQuality(item: Item): void {
+    item.quality = SulfurasStrategy.SULFURAS_QUALITY;
+  }
+}
+
 export class Item {
   name: string;
   sellIn: number;
