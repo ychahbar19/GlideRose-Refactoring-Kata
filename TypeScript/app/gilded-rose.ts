@@ -41,7 +41,17 @@ export class StandardItemStrategy extends BaseItemStrategy {
   }
 }
 
-export class AgedBrieStrategy extends BaseItemStrategy {
+class AgedBrieStrategy extends BaseItemStrategy {
+  private static readonly instance = new AgedBrieStrategy();
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): AgedBrieStrategy {
+    return AgedBrieStrategy.instance;
+  }
+
   updateQuality(item: Item): void {
     this.increaseQuality(item);
     this.updateSellIn(item);
@@ -51,7 +61,18 @@ export class AgedBrieStrategy extends BaseItemStrategy {
   }
 }
 
-export class BackstagePassStrategy extends BaseItemStrategy {
+
+class BackstagePassStrategy extends BaseItemStrategy {
+  private static readonly instance = new BackstagePassStrategy();
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): BackstagePassStrategy {
+    return BackstagePassStrategy.instance;
+  }
+
   updateQuality(item: Item): void {
     if (item.sellIn <= 0) {
       item.quality = 0;
@@ -64,8 +85,16 @@ export class BackstagePassStrategy extends BaseItemStrategy {
   }
 }
 
-export class SulfurasStrategy implements ItemUpdateStrategy {
+// does not need to extends the BaseStrategy because it does not use the base methods
+class SulfurasStrategy implements ItemUpdateStrategy {
   private static readonly SULFURAS_QUALITY = 80;
+  private static readonly instance = new SulfurasStrategy();
+
+  private constructor() { }
+
+  static getInstance(): SulfurasStrategy {
+    return SulfurasStrategy.instance;
+  }
 
   updateQuality(item: Item): void {
     item.quality = SulfurasStrategy.SULFURAS_QUALITY;
@@ -78,9 +107,9 @@ export class ItemUpdateStrategyFactory {
   private static readonly SULFURAS = 'Sulfuras, Hand of Ragnaros';
 
   static createStrategy(item: Item): ItemUpdateStrategy {
-    if (item.name === this.AGED_BRIE) return new AgedBrieStrategy();
-    if (item.name === this.BACKSTAGE_PASSES) return new BackstagePassStrategy();
-    if (item.name === this.SULFURAS) return new SulfurasStrategy();
+    if (item.name === this.AGED_BRIE) return AgedBrieStrategy.getInstance();
+    if (item.name === this.BACKSTAGE_PASSES) return BackstagePassStrategy.getInstance();
+    if (item.name === this.SULFURAS) return SulfurasStrategy.getInstance();
     return StandardItemStrategy.getInstance();
   }
 }
