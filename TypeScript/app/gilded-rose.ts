@@ -24,6 +24,16 @@ export abstract class BaseItemStrategy implements ItemUpdateStrategy {
 }
 
 export class StandardItemStrategy extends BaseItemStrategy {
+  private static readonly instance = new StandardItemStrategy();
+
+  private constructor() {
+    super();
+  }
+
+  static getInstance(): StandardItemStrategy {
+    return StandardItemStrategy.instance;
+  }
+
   updateQuality(item: Item): void {
     const degradeAmount = item.sellIn <= 0 ? 2 : 1;
     this.decreaseQuality(item, degradeAmount);
@@ -71,7 +81,7 @@ export class ItemUpdateStrategyFactory {
     if (item.name === this.AGED_BRIE) return new AgedBrieStrategy();
     if (item.name === this.BACKSTAGE_PASSES) return new BackstagePassStrategy();
     if (item.name === this.SULFURAS) return new SulfurasStrategy();
-    return new StandardItemStrategy();
+    return StandardItemStrategy.getInstance();
   }
 }
 
