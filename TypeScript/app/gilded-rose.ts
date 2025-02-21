@@ -1,3 +1,7 @@
+export interface ItemUpdateStrategy {
+  updateQuality(item: Item): void;
+}
+
 export class Item {
   name: string;
   sellIn: number;
@@ -17,6 +21,7 @@ export class GildedRose {
     this.items = items;
   }
 
+  // Rest of the original code remains the same
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
