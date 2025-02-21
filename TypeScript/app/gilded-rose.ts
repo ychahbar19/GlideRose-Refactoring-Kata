@@ -124,11 +124,13 @@ export class ItemUpdateStrategyFactory {
   private static readonly AGED_BRIE = 'Aged Brie';
   private static readonly BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
   private static readonly SULFURAS = 'Sulfuras, Hand of Ragnaros';
+  private static readonly CONJURED = 'Conjured';
 
   static createStrategy(item: Item): ItemUpdateStrategy {
     if (item.name === this.AGED_BRIE) return AgedBrieStrategy.getInstance();
     if (item.name === this.BACKSTAGE_PASSES) return BackstagePassStrategy.getInstance();
     if (item.name === this.SULFURAS) return SulfurasStrategy.getInstance();
+    if (item.name.toLowerCase().includes(this.CONJURED.toLowerCase())) return ConjuredItemStrategy.getInstance();
     return StandardItemStrategy.getInstance();
   }
 }
