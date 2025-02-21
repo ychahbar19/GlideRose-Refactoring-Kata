@@ -1,6 +1,6 @@
-# Gilded Rose
+# Gilded Rose Refactoring Kata
 
-This is the Gilded Rose kata in TypeScript.
+this is my own version of my refactoring, i grouped all my code into the same file for it to be easily accessible but in a real development case i would have split it into different files and folders using the appropriate synthax.
 
 ## Getting started
 
@@ -10,26 +10,21 @@ Install dependencies
 npm install
 ```
 
-## Run the unit tests from the Command-Line
+## Run the unit tests from the Command-Line for the old version
 
-There are two unit test frameworks to choose from, Jest and Mocha.
+the old version was not handling the new rules for the Conjured Items, by running Vitest test suite you should be able to see that the Conjured items test is failing (because it was considered by the old snapshot as a normal item decreasing quality by 1)
+
+```sh
+npm run test:vitest
+```
+
+## Run the unit tests from the Command-Line for the new refactored version
+
+On Jest suite test you can see that the tests are passing handling the new Conjured item business case
 
 ```sh
 npm run test:jest
 ```
-
-To run all tests in watch mode
-
-```sh
-npm run test:jest:watch
-```
-
-Mocha
-
-```sh
-npm run test:mocha
-```
-
 
 ## Run the TextTest fixture from the Command-Line
 
@@ -40,12 +35,12 @@ npx ts-node test/golden-master-text-test.ts
 ```
 
 Or with number of days as args:
+
 ```sh
 npx ts-node test/golden-master-text-test.ts 10
 ```
 
 You should make sure the command shown above works when you execute it in a terminal before trying to use TextTest (see below).
-
 
 ## Run the TextTest approval test that comes with this project
 
@@ -53,5 +48,3 @@ There are instructions in the [TextTest Readme](../texttests/README.md) for sett
 
     executable:${TEXTTEST_HOME}/python/texttest_fixture.py
     interpreter:python
-
-
